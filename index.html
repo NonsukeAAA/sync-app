@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyncApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header id="app-header">
+        <div class="header-content">
+            <button id="back-button" class="header-button"><i class="fas fa-arrow-left"></i></button>
+            <h1 id="app-title">SyncApp</h1>
+            <div id="header-context"></div>
+        </div>
+    </header>
+
+    <main id="app-container">
+        <!-- 曲一覧画面 -->
+        <section id="song-list-screen" class="screen active">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="曲名やアーティストで検索">
+                <div class="filter-buttons">
+                    <button class="filter-button active" data-filter="all">すべて</button>
+                    <button class="filter-button" data-filter="youtube"><i class="fab fa-youtube"></i></button>
+                    <button class="filter-button" data-filter="niconico"><i class="fas fa-play"></i></button>
+                    <button class="filter-button" data-filter="local"><i class="fas fa-music"></i></button>
+                </div>
+            </div>
+            <div id="songs-grid" class="songs-grid">
+                <!-- 曲カードがここに動的に追加される -->
+            </div>
+            <button id="add-song-button" class="fab-button"><i class="fas fa-plus"></i></button>
+            <button id="settings-button" class="settings-button"><i class="fas fa-cog"></i></button>
+        </section>
+
+        <!-- 設定画面 -->
+        <section id="settings-screen" class="screen">
+            <div class="settings-container">
+                <h2>設定</h2>
+                <div class="settings-group">
+                    <h3>メディアキャッシュ設定</h3>
+                    <div class="setting-item">
+                        <label for="enable-cache">メディアキャッシュを有効にする</label>
+                        <label class="switch">
+                            <input type="checkbox" id="enable-cache" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <button id="clear-cache" class="button secondary">メディアキャッシュをクリア</button>
+                    </div>
+                    <p class="settings-note">メディアキャッシュを有効にすると、一度再生した音源や動画がオフラインでも再生できるようになります。曲データと歌詞は常にサーバーから取得されます。</p>
+                </div>
+                <div class="settings-group">
+                    <h3>データ管理</h3>
+                    <div class="setting-item">
+                        <button id="export-data" class="button secondary">データエクスポート</button>
+                    </div>
+                    <div class="setting-item">
+                        <button id="import-data" class="button secondary">データインポート</button>
+                        <input type="file" id="import-file" accept=".json" style="display:none;">
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3>アプリ情報</h3>
+                    <p>SyncApp Ver 1.0.0</p>
+                    <p>個人用歌詞同期アプリ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 曲編集画面（ステップ1: 基本情報） -->
+        <section id="edit-step1-screen" class="screen">
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+            </div>
+            <div class="edit-form">
+                <h2>基本情報</h2>
+                <div class="form-group">
+                    <label for="song-title">曲名</label>
+                    <input type="text" id="song-title" placeholder="曲名を入力">
+                </div>
+                <div class="form-group">
+                    <label for="song-artist">アーティスト</label>
+                    <input type="text" id="song-artist" placeholder="アーティスト名を入力">
+                </div>
+                <div class="form-group">
+                    <label>音源タイプ</label>
+                    <div class="source-type-selector">
+                        <button class="source-type-button active" data-type="youtube">
+                            <i class="fab fa-youtube"></i> YouTube
+                        </button>
+                        <button class="source-type-button" data-type="niconico">
+                            <i class="fas fa-play"></i> ニコニコ
+                        </button>
+                        <button class="source-type-button" data-type="local">
+                            <i class="fas fa-music"></i> ローカルファイル
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group" id="source-input-container">
+                    <label for="source-url">URL</label>
+                    <input type="text" id="source-url" placeholder="YouTube URLを入力">
+                </div>
+                <div class="form-actions">
+                    <button id="step1-cancel" class="button secondary">キャンセル</button>
+                    <button id="step1-next" class="button primary">次へ</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 曲編集画面（ステップ2: 歌詞テキスト） -->
+        <section id="edit-step2-screen" class="screen">
+            <div class="step-indicator">
+                <div class="step">1</div>
+                <div class="step active">2</div>
+                <div class="step">3</div>
+            </div>
+            <div class="edit-form">
+                <h2>歌詞テキスト</h2>
+                <div class="form-group">
+                    <textarea id="lyrics-text" placeholder="歌詞を入力してください"></textarea>
+                </div>
+                <div class="text-processing-options">
+                    <button id="add-prelude" class="button secondary small">
+                        <i class="fas fa-music"></i> 前奏を追加
+                    </button>
+                    <button id="add-interlude" class="button secondary small">
+                        <i class="fas fa-guitar"></i> 間奏を追加
+                    </button>
+                    <button id="clean-text" class="button secondary small">
+                        <i class="fas fa-broom"></i> テキスト整形
+                    </button>
+                </div>
+                <div class="form-actions">
+                    <button id="step2-back" class="button secondary">戻る</button>
+                    <button id="step2-next" class="button primary">次へ</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 曲編集画面（ステップ3: タイミング設定） -->
+        <section id="edit-step3-screen" class="screen">
+            <div class="step-indicator">
+                <div class="step">1</div>
+                <div class="step">2</div>
+                <div class="step active">3</div>
+            </div>
+            <button id="toggle-editor-player-button" class="media-toggle-button">
+                <i class="fas fa-chevron-down"></i> プレーヤーを表示
+            </button>
+            <div class="media-player-container" id="timing-media-player">
+                <!-- メディアプレーヤーがここに挿入される -->
+            </div>
+            <div class="timing-controls">
+                <button id="play-pause-timing" class="button primary">
+                    <i class="fas fa-play"></i> 再生
+                </button>
+                <button id="reset-timing" class="button secondary">
+                    <i class="fas fa-undo"></i> リセット
+                </button>
+                <button id="sync-mode-toggle" class="button secondary">
+                    <i class="fas fa-sync"></i> 同期モード
+                </button>
+            </div>
+            <div class="lyrics-timing-list" id="lyrics-timing-list">
+                <!-- 歌詞行とタイミングUI要素がここに挿入される -->
+            </div>
+            <div class="form-actions">
+                <button id="step3-back" class="button secondary">戻る</button>
+                <button id="step3-save" class="button primary">保存</button>
+            </div>
+        </section>
+
+        <!-- 再生画面 -->
+        <section id="playback-screen" class="screen">
+            <div class="song-info">
+                <div class="song-title" id="playback-title"></div>
+                <div class="song-artist" id="playback-artist"></div>
+            </div>
+            <button id="toggle-player-button" class="media-toggle-button">
+                <i class="fas fa-chevron-down"></i> プレーヤーを表示
+            </button>
+            <div class="media-player-container" id="playback-media-player">
+                <!-- メディアプレーヤーがここに挿入される -->
+            </div>
+            <div class="lyrics-display-container">
+                <div id="previous-lyrics" class="lyrics-line previous"></div>
+                <div id="current-lyrics" class="lyrics-line current"></div>
+                <div id="next-lyrics" class="lyrics-line next"></div>
+            </div>
+            <div id="interlude-overlay" class="interlude-overlay">
+                <div class="interlude-countdown">
+                    <span id="interlude-label">間奏</span>
+                    <span id="interlude-time">00:00</span>
+                </div>
+            </div>
+            <div class="playback-controls-wrapper">
+                <div class="seek-bar-container">
+                    <input type="range" id="seek-bar" min="0" max="10000" value="0" step="1" class="seek-bar">
+                    <div class="interlude-markers" id="interlude-markers">
+                        <!-- 間奏・前奏マーカーがここに動的に追加される -->
+                    </div>
+                    <div class="seek-time-bubble" id="seek-time-bubble">00:00</div>
+                    <div class="seek-time">
+                        <span id="current-time">00:00</span>
+                        <span id="duration-time">00:00</span>
+                    </div>
+                </div>
+                <div class="playback-controls">
+                <button id="playback-previous" class="control-button">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button id="playback-play-pause" class="control-button large">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="playback-next" class="control-button">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button id="playback-fullscreen" class="control-button">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- トースト通知 -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- スクリプト -->
+    <script src="js/utils.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lyrics.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

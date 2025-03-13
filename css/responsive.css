@@ -1,0 +1,200 @@
+/* 
+ * SyncApp レスポンシブスタイルシート
+ * 個人用歌詞同期アプリ
+ */
+
+/* ブレークポイント:
+ * 1200px - 大型デスクトップ
+ * 768px - タブレット
+ * 480px - 小型モバイル
+ * 350px - 超小型モバイル
+ */
+
+/* 大型デスクトップ */
+@media (max-width: 1200px) {
+    .songs-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+/* タブレット */
+@media (max-width: 768px) {
+    .songs-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .lyrics-line.current {
+        font-size: 22px;
+    }
+    
+    .source-type-selector {
+        flex-direction: column;
+    }
+    
+    .source-type-button {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    
+    .source-type-button i {
+        margin-right: 8px;
+        margin-bottom: 0;
+    }
+    
+    .edit-form h2 {
+        font-size: 20px;
+    }
+    
+    .step {
+        width: 32px;
+        height: 32px;
+        margin: 0 12px;
+    }
+    
+    .timing-controls {
+        flex-wrap: wrap;
+    }
+}
+
+/* 小型モバイル */
+@media (max-width: 480px) {
+    .songs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-content {
+        padding: 0 12px;
+    }
+    
+    #app-title {
+        font-size: 20px;
+    }
+    
+    .lyrics-line.current {
+        font-size: 20px;
+    }
+    
+    .lyrics-line.previous, .lyrics-line.next {
+        font-size: 14px;
+    }
+    
+    .button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    .form-actions {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+    
+    .form-actions .button {
+        width: 100%;
+    }
+    
+    .interlude-countdown {
+        padding: 24px;
+    }
+    
+    #interlude-label {
+        font-size: 16px;
+    }
+    
+    #interlude-time {
+        font-size: 36px;
+    }
+    
+    .control-button {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .control-button.large {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .step {
+        width: 28px;
+        height: 28px;
+        margin: 0 8px;
+        font-size: 14px;
+    }
+    
+    .step:not(:last-child)::after {
+        width: 16px;
+    }
+}
+
+/* 超小型モバイル */
+@media (max-width: 350px) {
+    .lyrics-line.current {
+        font-size: 18px;
+    }
+    
+    .lyrics-line.previous, .lyrics-line.next {
+        font-size: 12px;
+    }
+    
+    .playback-controls {
+        gap: 8px;
+    }
+    
+    .control-button {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .control-button.large {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+    
+    .fab-button {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+    
+    #app-title {
+        font-size: 18px;
+    }
+    
+    .step-indicator {
+        margin-bottom: 16px;
+    }
+    
+    .edit-form h2 {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+}
+
+/* 縦向き・横向き対応 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .header-content {
+        height: 50px;
+    }
+    
+    #app-header {
+        height: 50px;
+    }
+    
+    #app-container {
+        margin-top: 50px;
+    }
+    
+    .lyrics-display-container {
+        min-height: 200px;
+        padding: 16px;
+    }
+    
+    .lyrics-line.current {
+        margin: 16px 0;
+    }
+    
+    .playback-controls {
+        padding: 12px;
+    }
+}

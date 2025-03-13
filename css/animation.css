@@ -1,0 +1,145 @@
+/* 
+ * SyncApp アニメーションスタイルシート
+ * 個人用歌詞同期アプリ
+ */
+
+/* フェードイン */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* フェードアウト */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* スライドアップ */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* スライドダウン */
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* スライド右から */
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* スライド左から */
+@keyframes slideLeft {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* パルス */
+@keyframes pulse {
+    from {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(147, 112, 219, 0.3);
+    }
+    to {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+    }
+}
+
+/* 点滅 */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* リップルエフェクト */
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* 回転 */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* スライドイン（現在の歌詞行） */
+@keyframes slideInLyrics {
+    from {
+        transform: translateY(20px) scale(0.9);
+        opacity: 0.5;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* スライドアウト（前の歌詞行） */
+@keyframes slideOutLyrics {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-20px) scale(0.9);
+        opacity: 0.5;
+    }
+}
+
+/* 画面遷移アニメーション */
+.screen-transition-enter {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.screen-transition-exit {
+    animation: fadeOut 0.3s ease-in;
+}
