@@ -944,16 +944,17 @@ label {
 
 /* 間奏オーバーレイ */
 .interlude-overlay {
-    position: absolute; /* 位置を絶対値に変更 */
-    bottom: 100%; /* シークバーの上に配置 */
+    position: fixed; /* Change from absolute to fixed */
+    bottom: 120px; /* Position above the playback controls */
     left: 0;
     width: 100%;
-    margin: 0; /* マージンを削除 */
+    margin: 0;
     display: flex;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
+    z-index: 950; /* Ensure it appears above other elements */
 }
 
 .interlude-overlay.active {

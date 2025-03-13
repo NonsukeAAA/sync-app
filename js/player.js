@@ -95,32 +95,32 @@ const Player = {
         
         if (!seekBar || !this.player) return;
         
-        // ドラッグ中は更新しない
+        // Don't update while dragging
         if (this.isDragging) return;
         
         try {
-            // 現在時間とデュレーションを取得
+            // Get current time and duration
             const currentTime = this.getCurrentTime();
             const duration = this.getDuration();
             
-            // NaNや無限大を防止
+            // Prevent NaN or infinite values
             if (isNaN(duration) || !isFinite(duration) || duration <= 0) {
                 return;
             }
             
-            // シークバーの値を更新（0-10000の精細なスケール）
+            // Update seek bar value (0-10000 scale for precision)
             const value = Math.min(10000, Math.max(0, Math.round((currentTime / duration) * 10000)));
             seekBar.value = value;
             
-            // プログレスバーの色を更新
+            // KEY FIX: Update progress bar color using document root
             const percentage = (value / 10000) * 100;
-            seekBar.style.setProperty('--seek-progress', `${percentage}%`);
+            document.documentElement.style.setProperty('--seek-progress', `${percentage}%`);
             
-            // 時間表示を更新
+            // Update time display
             currentTimeEl.textContent = formatTime(currentTime);
             durationTimeEl.textContent = formatTime(duration);
         } catch (error) {
-            console.error('シークバー更新エラー:', error);
+            console.error('Seek bar update error:', error);
         }
     },
 
