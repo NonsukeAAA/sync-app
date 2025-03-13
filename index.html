@@ -180,10 +180,6 @@
 
         <!-- 再生画面 -->
         <section id="playback-screen" class="screen">
-            <div class="song-info">
-                <div class="song-title" id="playback-title"></div>
-                <div class="song-artist" id="playback-artist"></div>
-            </div>
             <button id="toggle-player-button" class="media-toggle-button">
                 <i class="fas fa-chevron-down"></i> プレーヤーを表示
             </button>
@@ -195,13 +191,13 @@
                 <div id="current-lyrics" class="lyrics-line current"></div>
                 <div id="next-lyrics" class="lyrics-line next"></div>
             </div>
-            <div id="interlude-overlay" class="interlude-overlay">
-                <div class="interlude-countdown">
-                    <span id="interlude-label">間奏</span>
-                    <span id="interlude-time">00:00</span>
-                </div>
-            </div>
             <div class="playback-controls-wrapper">
+                <div id="interlude-overlay" class="interlude-overlay">
+                    <div class="interlude-countdown">
+                        <span id="interlude-label">間奏</span>
+                        <span id="interlude-time">00:00</span>
+                    </div>
+                </div>
                 <div class="seek-bar-container">
                     <input type="range" id="seek-bar" min="0" max="10000" value="0" step="1" class="seek-bar">
                     <div class="interlude-markers" id="interlude-markers">

@@ -639,21 +639,37 @@ const UI = {
         Player.initForPlayback(song);
     },
     
-    // 再生画面の初期化
+    // 再生画面の初期化を修正
     initPlaybackScreen: function(song) {
-        // 曲情報を表示
-        document.getElementById('playback-title').textContent = song.title;
-        document.getElementById('playback-artist').textContent = song.artist;
-        
+        // ヘッダータイトルを更新
+        document.getElementById('app-title').textContent = `${song.title} - ${song.artist}`;
+
         // 歌詞表示領域をリセット
         document.getElementById('previous-lyrics').textContent = '';
         document.getElementById('current-lyrics').textContent = '';
         document.getElementById('next-lyrics').textContent = '';
-        
-        // 曲タイトルをヘッダーに表示
-        document.getElementById('header-context').textContent = song.title;
+
+        // メディアプレーヤーの初期状態を設定
+        const playerButton = document.getElementById('toggle-player-button');
+        if (playerButton) {
+            playerButton.innerHTML = '<i class="fas fa-chevron-down"></i> プレーヤーを表示';
+        }
     },
-    
+
+    // 画面遷移時のタイトル管理を追加
+    handleScreenTransition: function(screenId) {
+        // アプリタイトルの参照を取得
+        const appTitle = document.getElementById('app-title');
+        
+        if (screenId === 'playback-screen') {
+            // 再生画面の場合は曲情報を表示したままにする
+            return;
+        }
+        
+        // その他の画面ではデフォルトのアプリ名に戻す
+        appTitle.textContent = 'SyncApp';
+    },
+
     // 歌詞表示を更新
     updateLyricsDisplay: function(prevLine, currentLine, nextLine) {
         const prevLyricsElement = document.getElementById('previous-lyrics');
@@ -694,17 +710,18 @@ const UI = {
         }, 250);
     },
     
-    // 間奏オーバーレイを表示/非表示
+    // 間奏オーバーレイの表示を修正
     toggleInterludeOverlay: function(show, type = 'interlude', remainingTime = 0) {
         const interludeOverlay = document.getElementById('interlude-overlay');
         const interludeLabel = document.getElementById('interlude-label');
         const interludeTime = document.getElementById('interlude-time');
         
+        if (!interludeOverlay || !interludeLabel || !interludeTime) return;
+
         if (show) {
+            interludeOverlay.classList.add('active');
             interludeLabel.textContent = type === 'prelude' ? '前奏' : '間奏';
             interludeTime.textContent = formatTime(remainingTime);
-            interludeOverlay.classList.add('active');
-            // カウントダウン中も操作可能（pointer-eventsは変更しない）
         } else {
             interludeOverlay.classList.remove('active');
         }
@@ -903,7 +920,7 @@ const UI = {
     validateStep3: function() {
         const timingItems = document.querySelectorAll('.lyrics-timing-item');
         let allSet = true;
-        
+
         // すべての行にタイミングが設定されているか確認
         timingItems.forEach(item => {
             if (!item.classList.contains('set')) {
@@ -921,3 +938,20 @@ const UI = {
         return true;
     }
 };
+
+// 画面遷移の処理を修正
+function navigateTo(screenId) {
+    // 現在のアクティブ画面を非表示
+    const currentScreen = document.querySelector('.screen.active');
+    if (currentScreen) {
+        currentScreen.classList.remove('active');
+    }
+
+    // 新しい画面を表示
+    const newScreen = document.getElementById(screenId);
+    if (newScreen) {
+        newScreen.classList.add('active');
+        // 画面遷移時のタイトル管理
+        UI.handleScreenTransition(screenId);
+    }
+}
